@@ -22,46 +22,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        createNotificationChannel();
-
         buttonTriggerNotification = (Button)findViewById(R.id.buttonTriggerNotification);
 
         buttonTriggerNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                triggerNotification();
+
+                MyAppsNotificationManager.getInstance(MainActivity.this).triggerNotification(NotificationDetailsActivity.class,
+                        "Notification Title",
+                        "Notification Content text. Ideally this should be bit more long and descriptive",
+                        "Notification Content text. Ideally this should be bit more long and descriptive",
+                         NotificationCompat.PRIORITY_DEFAULT,
+                        true,
+                        getResources().getInteger(R.integer.notificationId));
             }
         });
     }
-
-    private void createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.CHANNEL_ID), getString(R.string.CHANNEL_NAME), NotificationManager.IMPORTANCE_DEFAULT);
-            notificationChannel.setDescription(getString(R.string.CHANNEL_DESCRIPTION));
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
-    }
-
-    private void triggerNotification(){
-
-        Intent intent = new Intent(this, NotificationDetailsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent  = PendingIntent.getActivity(this,0,intent,0);
-
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,getString(R.string.CHANNEL_ID))
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("Notification Title")
-                .setContentText("Notification Content text. Ideally this should be bit more long and descriptive")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Notification Content text. Ideally this should be bit more long and descriptive"))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
-        NotificationManagerCompat notificationManagerCompat  = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(getResources().getInteger(R.integer.notificationId),builder.build());
-    }
-
-
 }
