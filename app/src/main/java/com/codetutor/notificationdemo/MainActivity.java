@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNotificationChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.CHANNEL_ID), getString(R.string.CHANNEL_NAME), NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.NEWS_CHANNEL_ID), getString(R.string.CHANNEL_NEWS), NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setDescription(getString(R.string.CHANNEL_DESCRIPTION));
+            notificationChannel.setShowBadge(true);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(notificationChannel);
         }
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         PendingIntent pendingIntent  = PendingIntent.getActivity(this,0,intent,0);
 
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,getString(R.string.CHANNEL_ID))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,getString(R.string.NEWS_CHANNEL_ID))
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_icon_large))
                 .setContentTitle("Notification Title")
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText("Notification Content text. Ideally this should be bit more long and descriptive"))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
+                .setChannelId(getString(R.string.NEWS_CHANNEL_ID))
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManagerCompat  = NotificationManagerCompat.from(this);
