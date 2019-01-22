@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button buttonTriggerNotification;
 
+    private static int count = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,15 +29,17 @@ public class MainActivity extends AppCompatActivity {
         buttonTriggerNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                count++;
 
                 MyAppsNotificationManager.getInstance(MainActivity.this).triggerNotification(NotificationDetailsActivity.class,
                         getString(R.string.NEWS_CHANNEL_ID),
-                        "Notification Title",
-                        "Notification Content text. Ideally this should be bit more long and descriptive",
-                        "Notification Content text. Ideally this should be bit more long and descriptive",
+                        "Count: "+count,
+                        "The count value now is : "+1,
+                        "The could value now have been updated to a new value. The current value is: "+count,
                          NotificationCompat.PRIORITY_DEFAULT,
                         true,
-                        getResources().getInteger(R.integer.notificationId));
+                        getResources().getInteger(R.integer.notificationId),
+                        PendingIntent.FLAG_ONE_SHOT);
             }
         });
     }

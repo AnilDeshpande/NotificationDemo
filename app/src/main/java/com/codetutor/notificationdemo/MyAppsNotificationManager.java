@@ -40,16 +40,39 @@ class MyAppsNotificationManager {
     public void triggerNotification(Class targetNotificationActivity, String channelId, String title, String text, String bigText, int priority, boolean autoCancel, int notificationId){
 
         Intent intent = new Intent(context, targetNotificationActivity);
+        intent.putExtra("count", title);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,channelId)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon_large))
+                .setContentTitle(title)
+                .setContentText(text)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setChannelId(channelId)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
+        notificationManagerCompat.notify(notificationId,builder.build());
+    }
+
+    public void triggerNotification(Class targetNotificationActivity, String channelId, String title, String text, String bigText, int priority, boolean autoCancel, int notificationId, int pendingIntentFlag){
+
+        Intent intent = new Intent(context, targetNotificationActivity);
+        intent.putExtra("count", title);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, pendingIntentFlag);
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,channelId)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon_large))
-                .setContentTitle("Notification Title")
-                .setContentText("Notification Content text. Ideally this should be bit more long and descriptive")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Notification Content text. Ideally this should be bit more long and descriptive"))
+                .setContentTitle(title)
+                .setContentText(text)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setChannelId(channelId)
