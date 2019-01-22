@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 MyAppsNotificationManager.getInstance(MainActivity.this).triggerNotification(NotificationDetailsActivity.class,
+                        getString(R.string.NEWS_CHANNEL_ID),
                         "Notification Title",
                         "Notification Content text. Ideally this should be bit more long and descriptive",
                         "Notification Content text. Ideally this should be bit more long and descriptive",

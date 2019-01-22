@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -27,30 +28,32 @@ class MyAppsNotificationManager {
         return instance;
     }
 
-    public void registerNotificationChannelChannel() {
+    public void registerNotificationChannelChannel(String channelId, String channelName, String channelDescription) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.CHANNEL_ID), context.getString(R.string.CHANNEL_NAME), NotificationManager.IMPORTANCE_DEFAULT);
-            notificationChannel.setDescription(context.getString(R.string.CHANNEL_DESCRIPTION));
+            NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.setDescription(channelDescription);
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }
 
-    public void triggerNotification(Class targetNotificationActivity, String title, String text, String bigText, int priority, boolean autocancel, int notificationId){
+    public void triggerNotification(Class targetNotificationActivity, String channelId, String title, String text, String bigText, int priority, boolean autoCancel, int notificationId){
 
         Intent intent = new Intent(context, targetNotificationActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.CHANNEL_ID))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,channelId)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon_large))
+                .setContentTitle("Notification Title")
+                .setContentText("Notification Content text. Ideally this should be bit more long and descriptive")
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Notification Content text. Ideally this should be bit more long and descriptive"))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
-                .setAutoCancel(autocancel);
+                .setChannelId(channelId)
+                .setAutoCancel(true);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(notificationId,builder.build());

@@ -10,7 +10,10 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         myAppsNotificationManager = MyAppsNotificationManager.getInstance(this);
-        myAppsNotificationManager.registerNotificationChannelChannel();
+        myAppsNotificationManager.registerNotificationChannelChannel(
+                getString(R.string.NEWS_CHANNEL_ID),
+                getString(R.string.CHANNEL_NEWS),
+                getString(R.string.CHANNEL_DESCRIPTION));
     }
 
 }
