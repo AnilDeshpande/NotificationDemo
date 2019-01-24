@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNotificationChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.NEWS_CHANNEL_ID), getString(R.string.CHANNEL_NEWS), NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.NEWS_CHANNEL_ID),getString(R.string.CHANNEL_NEWS), NotificationManager.IMPORTANCE_DEFAULT );
             notificationChannel.setDescription(getString(R.string.CHANNEL_DESCRIPTION));
             notificationChannel.setShowBadge(true);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -48,25 +48,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void triggerNotification(){
-
         Intent intent = new Intent(this, NotificationDetailsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent  = PendingIntent.getActivity(this,0,intent,0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0, intent, 0);
 
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,getString(R.string.NEWS_CHANNEL_ID))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.NEWS_CHANNEL_ID))
                 .setSmallIcon(R.drawable.ic_notification)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_icon_large))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_icon_large))
                 .setContentTitle("Notification Title")
-                .setContentText("Notification Content text. Ideally this should be bit more long and descriptive")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Notification Content text. Ideally this should be bit more long and descriptive"))
+                .setContentText("This is text, that will be shown as part of notification")
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("This is text, that will be shown as part of notification"))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setChannelId(getString(R.string.NEWS_CHANNEL_ID))
                 .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManagerCompat  = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(getResources().getInteger(R.integer.notificationId),builder.build());
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(getResources().getInteger(R.integer.notificationId), builder.build());
+
+
     }
 
 
