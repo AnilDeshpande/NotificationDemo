@@ -1,6 +1,5 @@
 package com.codetutor.notificationdemo;
 
-import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -16,9 +15,13 @@ class MyAppsNotificationManager {
     private Context context;
 
     private static MyAppsNotificationManager instance;
+    private NotificationManagerCompat notificationManagerCompat;
+    private NotificationManager notificationManager;
 
     private MyAppsNotificationManager(Context context){
         this.context = context;
+        notificationManagerCompat = NotificationManagerCompat.from(context);
+        notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public static MyAppsNotificationManager getInstance(Context context){
@@ -78,8 +81,11 @@ class MyAppsNotificationManager {
                 .setChannelId(channelId)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(notificationId,builder.build());
+    }
+
+    public void cancelNotification(int notificationId){
+        notificationManager.cancel(notificationId);
     }
 
 

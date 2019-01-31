@@ -1,12 +1,6 @@
 package com.codetutor.notificationdemo;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,9 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
 
-    Button buttonTriggerNotification;
-
-    private static int count = 0;
+    Button buttonTriggerNotification, buttonCancel, buttonUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,22 +17,49 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         buttonTriggerNotification = (Button)findViewById(R.id.buttonTriggerNotification);
+        buttonCancel = (Button)findViewById(R.id.buttonCancel);
+        buttonUpdate = (Button)findViewById(R.id.buttonUpdate);
 
         buttonTriggerNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count++;
 
-                MyAppsNotificationManager.getInstance(MainActivity.this).triggerNotification(NotificationDetailsActivity.class,
+
+                ((MyApplication)getApplication()).triggerNotification(NotificationDetailsActivity.class,
                         getString(R.string.NEWS_CHANNEL_ID),
-                        "Count: "+count,
-                        "The count value now is : "+1,
-                        "The could value now have been updated to a new value. The current value is: "+count,
-                         NotificationCompat.PRIORITY_DEFAULT,
+                        "Sample Notification",
+                        "This is a sample notification app",
+                        "This is a sample notification created by Codetutor for demonstration of how to trigger notifications in Android app ",
+                         NotificationCompat.PRIORITY_HIGH,
                         true,
-                        getResources().getInteger(R.integer.notificationId),
-                        PendingIntent.FLAG_ONE_SHOT);
+                         getResources().getInteger(R.integer.notificationId),
+                        0);
             }
         });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MyApplication)getApplication()).cancelNotification(getResources().getInteger(R.integer.notificationId));
+            }
+        });
+
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MyApplication)getApplication()).triggerNotification(NotificationDetailsActivity.class,
+                        getString(R.string.NEWS_CHANNEL_ID),
+                        "Sample Notification has been updated",
+                        "This is updated Notification",
+                        "The sample notification is being updated by for demonstration of how to update an existing notifications in Android app ",
+                        NotificationCompat.PRIORITY_HIGH,
+                        true,
+                        getResources().getInteger(R.integer.notificationId),
+                        0);
+            }
+        });
+
+
+
     }
 }
