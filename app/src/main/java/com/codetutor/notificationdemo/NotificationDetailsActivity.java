@@ -17,7 +17,6 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification_details);
 
         textViewNotificationDetails =  (TextView)findViewById(R.id.textViewNotificationDetails);
-        textViewNotificationDetails.setText(getIntent().getStringExtra("count"));
     }
 
     @Override

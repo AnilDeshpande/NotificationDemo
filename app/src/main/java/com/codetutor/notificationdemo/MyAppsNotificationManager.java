@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
@@ -82,6 +83,28 @@ class MyAppsNotificationManager {
                 .setAutoCancel(true);
 
         notificationManagerCompat.notify(notificationId,builder.build());
+    }
+
+    public void updateWithPicture(Class targetNotificationActivity,String title,String text, String channelId, int notificationId, String bigpictureString, int pendingIntentflag) {
+
+        Intent intent = new Intent(context, targetNotificationActivity);
+        intent.putExtra("count", title);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,channelId)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon_large))
+                .setContentTitle(title)
+                .setContentText(text)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setChannelId(channelId)
+                .setAutoCancel(true);
+
+        Bitmap androidImage = BitmapFactory.decodeResource(context.getResources(), R.drawable.big_pic);
+        builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(androidImage).setBigContentTitle(bigpictureString));
+        notificationManager.notify(notificationId, builder.build());
     }
 
     public void cancelNotification(int notificationId){

@@ -1,5 +1,6 @@
 package com.codetutor.notificationdemo;
 
+import android.app.PendingIntent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                          NotificationCompat.PRIORITY_HIGH,
                         true,
                          getResources().getInteger(R.integer.notificationId),
-                        0);
+                        PendingIntent.FLAG_UPDATE_CURRENT);
             }
         });
 
@@ -47,15 +48,13 @@ public class MainActivity extends AppCompatActivity {
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MyApplication)getApplication()).triggerNotification(NotificationDetailsActivity.class,
+                ((MyApplication)getApplication()).updateNotification(NotificationDetailsActivity.class,
+                        "Updated Notification",
+                        "This is updatedNotification",
                         getString(R.string.NEWS_CHANNEL_ID),
-                        "Sample Notification has been updated",
-                        "This is updated Notification",
-                        "The sample notification is being updated by for demonstration of how to update an existing notifications in Android app ",
-                        NotificationCompat.PRIORITY_HIGH,
-                        true,
                         getResources().getInteger(R.integer.notificationId),
-                        0);
+                        "This is a updated information for bigpicture String",
+                        PendingIntent.FLAG_UPDATE_CURRENT);
             }
         });
 

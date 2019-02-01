@@ -24,6 +24,10 @@ public class MyApplication extends Application {
         myAppsNotificationManager.triggerNotification(targetNotificationActivity,channelId,title,text, bigText, priority, autoCancel,notificationId);
     }
 
+    public void updateNotification(Class targetNotificationActivity,String title,String text, String channelId, int notificationId, String bigpictureString, int pendingIntentflag){
+        myAppsNotificationManager.updateWithPicture(targetNotificationActivity, title, text, channelId, notificationId, bigpictureString, pendingIntentflag);
+    }
+
     public void cancelNotification(int notificaitonId){
         myAppsNotificationManager.cancelNotification(notificaitonId);
     }
