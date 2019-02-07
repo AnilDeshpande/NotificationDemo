@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                ((MyApplication)getApplication()).triggerNotification(NotificationDetailsActivity.class,
+                ((MyApplication)getApplication()).triggerNotificationWithBackStack(NotificationDetailsActivity.class,
                         getString(R.string.NEWS_CHANNEL_ID),
                         "Sample Notification",
                         "This is a sample notification app",

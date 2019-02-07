@@ -3,6 +3,7 @@ package com.codetutor.notificationdemo;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -85,12 +86,35 @@ class MyAppsNotificationManager {
         notificationManagerCompat.notify(notificationId,builder.build());
     }
 
+    public void triggerNotificationWithBackStack(Class targetNotificationActivity, String channelId, String title, String text, String bigText, int priority, boolean autoCancel, int notificationId, int pendingIntentFlag){
+
+        Intent intent = new Intent(context, targetNotificationActivity);
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
+        taskStackBuilder.addNextIntentWithParentStack(intent);
+        intent.putExtra("count", title);
+        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, pendingIntentFlag);
+
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,channelId)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon_large))
+                .setContentTitle(title)
+                .setContentText(text)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(bigText))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setChannelId(channelId)
+                .setAutoCancel(true);
+
+        notificationManagerCompat.notify(notificationId,builder.build());
+    }
+
     public void updateWithPicture(Class targetNotificationActivity,String title,String text, String channelId, int notificationId, String bigpictureString, int pendingIntentflag) {
 
         Intent intent = new Intent(context, targetNotificationActivity);
         intent.putExtra("count", title);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, pendingIntentflag);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,channelId)
                 .setSmallIcon(R.drawable.ic_notification)

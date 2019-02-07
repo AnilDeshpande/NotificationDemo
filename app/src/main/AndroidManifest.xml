@@ -10,14 +10,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.codetutor.notificationdemo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NotificationDetailsActivity"/>
+
+        <activity android:name=".IntermediateActivity" android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codetutor.notificationdemo.MainActivity" />
+        </activity>
+
+        <activity android:name=".NotificationDetailsActivity" android:parentActivityName="com.codetutor.notificationdemo.IntermediateActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.codetutor.notificationdemo.IntermediateActivity"/>
+        </activity>
+
 
     </application>
 
