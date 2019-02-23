@@ -67,7 +67,7 @@ class MyAppsNotificationManager {
 
         Intent intent = new Intent(context, targetNotificationActivity);
         intent.putExtra("count", title);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, pendingIntentFlag);
 
 
