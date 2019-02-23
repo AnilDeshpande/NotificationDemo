@@ -28,8 +28,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.codetutor.notificationdemo.IntermediateActivity"/>
         </activity>
-
-
     </application>
 
 </manifest>
