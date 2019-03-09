@@ -1,8 +1,19 @@
 package com.codetutor.notificationdemo;
 
 import android.app.Application;
+import android.nfc.Tag;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MyApplication extends Application {
+
+    private static final String TAG = MyApplication.class.getSimpleName();
 
     MyAppsNotificationManager  myAppsNotificationManager;
 
@@ -14,6 +25,24 @@ public class MyApplication extends Application {
                 getString(R.string.NEWS_CHANNEL_ID),
                 getString(R.string.CHANNEL_NEWS),
                 getString(R.string.CHANNEL_DESCRIPTION));
+
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.i(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        Log.i(TAG,"Instance Id Token: "+token);
+
+
+                    }
+                });
     }
 
     public void triggerNotification(Class targetNotificationActivity, String channelId, String title, String text, String bigText, int priority, boolean autoCancel, int notificationId, int pendingIntentFlag){
