@@ -27,6 +27,7 @@ public class MyApplication extends Application {
                 getString(R.string.CHANNEL_DESCRIPTION));
 
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override

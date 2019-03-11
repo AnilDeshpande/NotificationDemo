@@ -5,9 +5,11 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class MyFireBaseInstanceIdService extends FirebaseMessagingService {
+import java.util.Set;
 
-    private static final String TAG = MyFireBaseInstanceIdService.class.getSimpleName();
+public class MyFireBaseMessagingService extends FirebaseMessagingService {
+
+    private static final String TAG = MyFireBaseMessagingService.class.getSimpleName();
 
     @Override
     public void onNewToken(String s) {
@@ -18,7 +20,11 @@ public class MyFireBaseInstanceIdService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.i(TAG," onMessage Received: "+ remoteMessage.getData());
+        Set<String> keySet = remoteMessage.getData().keySet();
+        for(String key: keySet){
+            Log.i(TAG,key+" : "+ remoteMessage.getData().get(key));
+        }
+
     }
 
     @Override
