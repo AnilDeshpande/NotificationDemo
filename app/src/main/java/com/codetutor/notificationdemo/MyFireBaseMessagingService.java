@@ -1,5 +1,7 @@
 package com.codetutor.notificationdemo;
 
+import android.app.PendingIntent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -20,10 +22,17 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Set<String> keySet = remoteMessage.getData().keySet();
-        for(String key: keySet){
-            Log.i(TAG,key+" : "+ remoteMessage.getData().get(key));
-        }
+        Log.i(TAG,"onMessageReceived invoked");
+
+        ((MyApplication)getApplication()).triggerNotificationWithBackStack(NotificationDetailsActivity.class,
+                getString(R.string.NEWS_CHANNEL_ID),
+                "Sample Notification",
+                "This is a sample notification app",
+                "This is a sample notification created by Codetutor for demonstration of how to trigger notifications in Android app ",
+                NotificationCompat.PRIORITY_HIGH,
+                true,
+                getResources().getInteger(R.integer.notificationId),
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
     }
 
