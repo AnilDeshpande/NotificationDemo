@@ -29,21 +29,21 @@ public class MyApplication extends Application {
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 
         FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.i(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-                        Log.i(TAG,"Instance Id Token: "+token);
-
-
+            .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                @Override
+                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    if (!task.isSuccessful()) {
+                        Log.i(TAG, "getInstanceId failed", task.getException());
+                        return;
                     }
-                });
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+                    Log.i(TAG,"Instance Id Token: "+token);
+
+
+                }
+            });
     }
 
     public void triggerNotification(Class targetNotificationActivity, String channelId, String title, String text, String bigText, int priority, boolean autoCancel, int notificationId, int pendingIntentFlag){
