@@ -14,17 +14,12 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-        Log.i(TAG," The New token has been generated: "+s);
+        Log.i(TAG,"The New token has been generated: "+s);
     }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Set<String> keySet = remoteMessage.getData().keySet();
-        for(String key: keySet){
-            Log.i(TAG,key+" : "+ remoteMessage.getData().get(key));
-        }
-
     }
 
     @Override
