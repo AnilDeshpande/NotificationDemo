@@ -1,13 +1,9 @@
 package com.codetutor.notificationdemo;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import java.util.Map;
-import java.util.Set;
 
 public class MyFireBaseMessagingService extends  FirebaseMessagingService {
 

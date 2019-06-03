@@ -1,7 +1,6 @@
 package com.codetutor.notificationdemo;
 
 import android.app.Application;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
