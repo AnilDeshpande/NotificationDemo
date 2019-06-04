@@ -25,19 +25,19 @@ public class MyApplication extends Application {
                 getString(R.string.CHANNEL_NEWS),
                 getString(R.string.CHANNEL_DESCRIPTION));
 
-        FirebaseMessaging.getInstance().isAutoInitEnabled();
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
             @Override
             public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                if(!task.isComplete()){
-                    Log.i(getString(R.string.DEBUG_TAG)," Task Filed");
+                if(!task.isSuccessful()) {
+                    Log.i(getString(R.string.DEBUG_TAG), "Task Failed");
                     return;
                 }
-
-                Log.i(getString(R.string.DEBUG_TAG)," The completed result: "+task.getResult().getToken());
+                Log.i(getString(R.string.DEBUG_TAG), "The result: "+task.getResult().getToken());
             }
         });
+
     }
 
     public void triggerNotification(Class targetNotificationActivity, String channelId, String title, String text, String bigText, int priority, boolean autoCancel, int notificationId, int pendingIntentFlag){
