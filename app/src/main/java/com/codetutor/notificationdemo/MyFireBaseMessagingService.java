@@ -24,14 +24,25 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         Log.i(getString(R.string.DEBUG_TAG),"Remote Message received");
 
-        ((MyApplication)getApplication()).triggerNotificationWithBackStack(NotificationDetailsActivity.class,
-                getString(R.string.NEWS_CHANNEL_ID),
-                remoteMessage.getNotification().getTitle(),
-                remoteMessage.getNotification().getBody(),
-                "This notification is from FCM Console ",
-                NotificationCompat.PRIORITY_HIGH,
-                false,
-                getResources().getInteger(R.integer.notificationId),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        Map<String, String> data =  remoteMessage.getData();
+
+        if (notification !=null && data !=null){
+            Log.i(getString(R.string.DEBUG_TAG),"Message received from Rest API with both with data as well");
+        } else if(remoteMessage.getNotification()!=null){
+            Log.i(getString(R.string.DEBUG_TAG),"Message received from console");
+            ((MyApplication)getApplication()).triggerNotificationWithBackStack(NotificationDetailsActivity.class,
+                    getString(R.string.NEWS_CHANNEL_ID),
+                    remoteMessage.getNotification().getTitle(),
+                    remoteMessage.getNotification().getBody(),
+                    "This notification is from FCM Console ",
+                    NotificationCompat.PRIORITY_HIGH,
+                    false,
+                    getResources().getInteger(R.integer.notificationId),
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+
+        }else if (remoteMessage.getData()!=null){
+            Log.i(getString(R.string.DEBUG_TAG),"Message received from Rest API");
+        }
     }
 }
