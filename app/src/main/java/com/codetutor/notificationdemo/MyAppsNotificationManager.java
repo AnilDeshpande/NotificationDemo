@@ -106,7 +106,7 @@ class MyAppsNotificationManager {
                 .setContentIntent(pendingIntent)
                 .setChannelId(channelId)
                 .setOngoing(false)
-                .setAutoCancel(true);
+                .setAutoCancel(false);
 
         notificationManagerCompat.notify(notificationId,builder.build());
     }
