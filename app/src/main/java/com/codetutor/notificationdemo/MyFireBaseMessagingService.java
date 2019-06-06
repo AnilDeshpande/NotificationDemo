@@ -28,9 +28,9 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                 getString(R.string.NEWS_CHANNEL_ID),
                 remoteMessage.getNotification().getTitle(),
                 remoteMessage.getNotification().getBody(),
-                "This notification is from FCM Console ",
+                "This notification is from FCM console ",
                 NotificationCompat.PRIORITY_HIGH,
-                false,
+                true,
                 getResources().getInteger(R.integer.notificationId),
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
