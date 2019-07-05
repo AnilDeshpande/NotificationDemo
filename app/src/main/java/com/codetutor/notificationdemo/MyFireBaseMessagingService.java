@@ -13,6 +13,30 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFireBaseMessagingService.class.getSimpleName();
 
+    enum PUSH_NOTIFICATION_SOURCE{
+        CONSOLE, API_WITHOUT_NOTIFICATION, API_WITH_NOTIFICATION, UNKNOWON_SOURCE;
+    }
+
+    private PUSH_NOTIFICATION_SOURCE getNotificationSource(RemoteMessage remoteMessage){
+
+        PUSH_NOTIFICATION_SOURCE notificationSource;
+
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        Map<String, String> data =  remoteMessage.getData();
+
+        if (notification !=null && data !=null){
+            if(data.size()==0){
+                notificationSource =  PUSH_NOTIFICATION_SOURCE.CONSOLE;
+            }else {
+                notificationSource =  PUSH_NOTIFICATION_SOURCE.API_WITH_NOTIFICATION;
+            }
+        }else if (remoteMessage.getData()!=null){
+            notificationSource =  PUSH_NOTIFICATION_SOURCE.API_WITHOUT_NOTIFICATION;
+        } else {
+            notificationSource = PUSH_NOTIFICATION_SOURCE.UNKNOWON_SOURCE;
+        }
+        return notificationSource;
+    }
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
@@ -22,27 +46,50 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.i(getString(R.string.DEBUG_TAG),"Remote Message received");
 
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
-        Map<String, String> data =  remoteMessage.getData();
+        PUSH_NOTIFICATION_SOURCE notificationSource = getNotificationSource(remoteMessage);
+        
+        Log.i(getString(R.string.DEBUG_TAG),"Remote Message received from : "+notificationSource);
 
-        if (notification !=null && data !=null){
-            Log.i(getString(R.string.DEBUG_TAG),"Message received from Rest API with both with data as well");
-        } else if(remoteMessage.getNotification()!=null){
-            Log.i(getString(R.string.DEBUG_TAG),"Message received from console");
-            ((MyApplication)getApplication()).triggerNotificationWithBackStack(NotificationDetailsActivity.class,
-                    getString(R.string.NEWS_CHANNEL_ID),
-                    remoteMessage.getNotification().getTitle(),
-                    remoteMessage.getNotification().getBody(),
-                    "This notification is from FCM Console ",
-                    NotificationCompat.PRIORITY_HIGH,
-                    false,
-                    getResources().getInteger(R.integer.notificationId),
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+        switch (notificationSource){
+            case CONSOLE:
+                ((MyApplication)getApplication()).triggerNotificationWithBackStack(NotificationDetailsActivity.class,
+                        getString(R.string.NEWS_CHANNEL_ID),
+                        remoteMessage.getNotification().getTitle(),
+                        remoteMessage.getNotification().getBody(),
+                        "This notification is from FCM Console ",
+                        NotificationCompat.PRIORITY_HIGH,
+                        false,
+                        getResources().getInteger(R.integer.notificationId),
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+                break;
+            case API_WITH_NOTIFICATION:
+                ((MyApplication)getApplication()).triggerNotificationWithBackStack(NotificationDetailsActivity.class,
+                        getString(R.string.NEWS_CHANNEL_ID),
+                        remoteMessage.getNotification().getTitle(),
+                        remoteMessage.getNotification().getBody(),
+                        "This notification is from FCM API call with notification title and body",
+                        NotificationCompat.PRIORITY_HIGH,
+                        false,
+                        getResources().getInteger(R.integer.notificationId),
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+                break;
+            case API_WITHOUT_NOTIFICATION:
+                ((MyApplication)getApplication()).triggerNotificationWithBackStack(NotificationDetailsActivity.class,
+                        getString(R.string.NEWS_CHANNEL_ID),
+                        "Random notification Title",
+                        "Random notification body",
+                        "This notification is from FCM API call without notification title and body",
+                        NotificationCompat.PRIORITY_HIGH,
+                        false,
+                        getResources().getInteger(R.integer.notificationId),
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+                break;
+            case UNKNOWON_SOURCE:
+                Log.i(TAG,"Since it's unknown source, don't want to do anything");
+                break;
 
-        }else if (remoteMessage.getData()!=null){
-            Log.i(getString(R.string.DEBUG_TAG),"Message received from Rest API");
+                default:break;
         }
     }
 }
