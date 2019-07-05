@@ -17,26 +17,6 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         CONSOLE, API_WITHOUT_NOTIFICATION, API_WITH_NOTIFICATION, UNKNOWON_SOURCE;
     }
 
-    private PUSH_NOTIFICATION_SOURCE getNotificationSource(RemoteMessage remoteMessage){
-
-        PUSH_NOTIFICATION_SOURCE notificationSource;
-
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
-        Map<String, String> data =  remoteMessage.getData();
-
-        if (notification !=null && data !=null){
-            if(data.size()==0){
-                notificationSource =  PUSH_NOTIFICATION_SOURCE.CONSOLE;
-            }else {
-                notificationSource =  PUSH_NOTIFICATION_SOURCE.API_WITH_NOTIFICATION;
-            }
-        }else if (remoteMessage.getData()!=null){
-            notificationSource =  PUSH_NOTIFICATION_SOURCE.API_WITHOUT_NOTIFICATION;
-        } else {
-            notificationSource = PUSH_NOTIFICATION_SOURCE.UNKNOWON_SOURCE;
-        }
-        return notificationSource;
-    }
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
@@ -48,7 +28,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
         PUSH_NOTIFICATION_SOURCE notificationSource = getNotificationSource(remoteMessage);
-        
+
         Log.i(getString(R.string.DEBUG_TAG),"Remote Message received from : "+notificationSource);
 
         switch (notificationSource){
@@ -91,5 +71,26 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
                 default:break;
         }
+    }
+
+    private PUSH_NOTIFICATION_SOURCE getNotificationSource(RemoteMessage remoteMessage){
+
+        PUSH_NOTIFICATION_SOURCE notificationSource;
+
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        Map<String, String> data =  remoteMessage.getData();
+
+        if (notification !=null && data !=null){
+            if(data.size()==0){
+                notificationSource =  PUSH_NOTIFICATION_SOURCE.CONSOLE;
+            }else {
+                notificationSource =  PUSH_NOTIFICATION_SOURCE.API_WITH_NOTIFICATION;
+            }
+        }else if (remoteMessage.getData()!=null){
+            notificationSource =  PUSH_NOTIFICATION_SOURCE.API_WITHOUT_NOTIFICATION;
+        } else {
+            notificationSource = PUSH_NOTIFICATION_SOURCE.UNKNOWON_SOURCE;
+        }
+        return notificationSource;
     }
 }
