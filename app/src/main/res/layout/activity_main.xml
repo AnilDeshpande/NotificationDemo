@@ -8,8 +8,8 @@
 
     <Button
         android:id="@+id/buttonTriggerNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="272dp"
+        android:layout_height="43dp"
         android:text="Trigger Notification"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -19,8 +19,8 @@
 
     <Button
         android:id="@+id/buttonCancel"
-        android:layout_width="188dp"
-        android:layout_height="48dp"
+        android:layout_width="274dp"
+        android:layout_height="52dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -36,8 +36,8 @@
 
     <Button
         android:id="@+id/buttonUpdate"
-        android:layout_width="184dp"
-        android:layout_height="47dp"
+        android:layout_width="276dp"
+        android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="40dp"
@@ -48,21 +48,6 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonCancel" />
-
-    <Switch
-        android:id="@+id/switchReceivePushNoitfication"
-        android:layout_width="173dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="148dp"
-        android:text="Receive Push Notification"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

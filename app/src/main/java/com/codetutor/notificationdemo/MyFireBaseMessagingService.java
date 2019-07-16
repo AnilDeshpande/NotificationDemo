@@ -14,13 +14,14 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = MyFireBaseMessagingService.class.getSimpleName();
 
     enum PUSH_NOTIFICATION_SOURCE{
-        CONSOLE, API_WITHOUT_NOTIFICATION, API_WITH_NOTIFICATION, UNKNOWON_SOURCE;
+        CONSOLE, API_WITHOUT_NOTIFICATION, API_WITH_NOTIFICATION, UNKNOWN_SOURCE;
     }
 
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
         Log.i(getString(R.string.DEBUG_TAG),"New token: "+s);
+        //Making an API call - Thread, Volley, okHttp, Retrofit
     }
 
     @Override
@@ -65,7 +66,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
                         getResources().getInteger(R.integer.notificationId),
                         PendingIntent.FLAG_UPDATE_CURRENT);
                 break;
-            case UNKNOWON_SOURCE:
+            case UNKNOWN_SOURCE:
                 Log.i(TAG,"Since it's unknown source, don't want to do anything");
                 break;
 
@@ -89,7 +90,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         }else if (remoteMessage.getData()!=null){
             notificationSource =  PUSH_NOTIFICATION_SOURCE.API_WITHOUT_NOTIFICATION;
         } else {
-            notificationSource = PUSH_NOTIFICATION_SOURCE.UNKNOWON_SOURCE;
+            notificationSource = PUSH_NOTIFICATION_SOURCE.UNKNOWN_SOURCE;
         }
         return notificationSource;
     }

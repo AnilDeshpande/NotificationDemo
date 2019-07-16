@@ -37,6 +37,7 @@ public class MyApplication extends Application {
                 }
 
                 Log.i(getString(R.string.DEBUG_TAG)," The completed result: "+task.getResult().getToken());
+                //Making an API call - Thread, Volley, okHttp, Retrofit
             }
         });
     }
